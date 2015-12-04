@@ -77,7 +77,7 @@ func TestDecodePolygon(t *testing.T) {
 				`9.6255555555556 48.5625` +
 				`</POLYGON>`,
 			want: Polygon{
-				Coords: [][2]float64{
+				Coords: [][]float64{
 					{9.6255555555556, 48.5625},
 					{9.8477777777778, 48.659444444444},
 					{9.8488590649036, 48.671520456103},
@@ -165,7 +165,7 @@ func TestRead(t *testing.T) {
 						AltLimitBottom: AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 75}},
 						Polygons: []Polygon{
 							{
-								Coords: [][2]float64{
+								Coords: [][]float64{
 									{9.6255555555556, 48.5625},
 									{9.8477777777778, 48.659444444444},
 									{9.8488590649036, 48.671520456103},

@@ -23,7 +23,7 @@ type AltLimit struct {
 
 // A Polygon represents a two-dimensional polygon.
 type Polygon struct {
-	Coords [][2]float64 // Longitude, latitude
+	Coords [][]float64 // Longitude, latitude
 }
 
 // An Airspace represents a single airspace.
@@ -72,12 +72,13 @@ func (p *Polygon) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if len(css) < 3 {
 		return fmt.Errorf("expected at least 3 coordinates, got %d: %#v", len(css), css)
 	}
-	coords := make([][2]float64, len(css))
+	coords := make([][]float64, len(css))
 	for i, cs := range css {
 		fields := strings.Fields(cs)
 		if len(fields) != 2 {
 			return fmt.Errorf("expected two values, got %d: %v", len(fields), cs)
 		}
+		coords[i] = make([]float64, 2)
 		var err error
 		coords[i][0], err = strconv.ParseFloat(fields[0], 64)
 		if err != nil {
