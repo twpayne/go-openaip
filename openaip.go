@@ -101,7 +101,7 @@ func Read(r io.Reader) (*OpenAIP, error) {
 		return nil, err
 	}
 	if oa.DataFormat != "1.1" {
-		return nil, fmt.Errorf("openaip.Read: unsupported data format: %v", oa.DataFormat)
+		return nil, fmt.Errorf("unsupported data format: %v", oa.DataFormat)
 	}
 	return &oa, nil
 }
