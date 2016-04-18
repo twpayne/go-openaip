@@ -12,7 +12,7 @@ import (
 // An Alt represents an altitude.
 type Alt struct {
 	Unit  string
-	Value int
+	Value float64
 }
 
 // An AltLimit represents an altitude limit.
@@ -56,7 +56,7 @@ func (a *Alt) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		return err
 	}
 	var err error
-	a.Value, err = strconv.Atoi(value)
+	a.Value, err = strconv.ParseFloat(value, 64)
 	if err != nil {
 		return err
 	}

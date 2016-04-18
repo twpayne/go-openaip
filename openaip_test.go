@@ -14,6 +14,7 @@ func TestDecodeAlt(t *testing.T) {
 	}{
 		{`<ALT UNIT="FL">100</ALT>`, Alt{Unit: "FL", Value: 100}},
 		{`<ALT UNIT="FL">75</ALT>`, Alt{Unit: "FL", Value: 75}},
+		{`<ALT UNIT="FL">90.000000000000000</ALT>`, Alt{Unit: "FL", Value: 90}},
 	} {
 		d := xml.NewDecoder(bytes.NewBufferString(tc.s))
 		var got Alt
