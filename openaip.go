@@ -30,7 +30,7 @@ type Polygon struct {
 type Airspace struct {
 	Category       string    `xml:"CATEGORY,attr"`
 	Version        string    `xml:"VERSION"`
-	Id             int       `xml:"ID"`
+	ID             int       `xml:"ID"`
 	Country        string    `xml:"COUNTRY"`
 	Name           string    `xml:"NAME"`
 	AltLimitTop    AltLimit  `xml:"ALTLIMIT_TOP"`

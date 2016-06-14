@@ -159,7 +159,7 @@ func TestRead(t *testing.T) {
 					{
 						Category:       "WAVE",
 						Version:        "367810a0f94887bf79cd9432d2a01142b0426795",
-						Id:             18024,
+						ID:             18024,
 						Country:        "DE",
 						Name:           "ALB-OST",
 						AltLimitTop:    AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 100}},
