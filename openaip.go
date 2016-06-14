@@ -45,6 +45,7 @@ type OpenAIP struct {
 	Airspaces  []Airspace `xml:"AIRSPACES>ASP"`
 }
 
+// UnmarshalXML implements xml.Unmarshaler.UnmarshalXML.
 func (a *Alt) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	for _, attr := range start.Attr {
 		if attr.Name.Local == "UNIT" {
@@ -63,6 +64,7 @@ func (a *Alt) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return nil
 }
 
+// UnmarshalXML implements xml.Unmarshaler.UnmarshalXML.
 func (p *Polygon) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var value string
 	if err := d.DecodeElement(&value, &start); err != nil {
