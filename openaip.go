@@ -56,6 +56,10 @@ func (a *Alt) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if err := d.DecodeElement(&value, &start); err != nil {
 		return err
 	}
+	if value == "" {
+		a.Value = 0
+		return nil
+	}
 	var err error
 	a.Value, err = strconv.ParseFloat(value, 64)
 	return err
