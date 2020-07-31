@@ -1,23 +1,25 @@
-package openaip
+package openaip_test
 
 import (
 	"bytes"
 	"encoding/xml"
 	"reflect"
 	"testing"
+
+	"github.com/twpayne/go-openaip"
 )
 
 func TestDecodeAlt(t *testing.T) {
 	for _, tc := range []struct {
 		s    string
-		want Alt
+		want openaip.Alt
 	}{
-		{`<ALT UNIT="FL">100</ALT>`, Alt{Unit: "FL", Value: 100}},
-		{`<ALT UNIT="FL">75</ALT>`, Alt{Unit: "FL", Value: 75}},
-		{`<ALT UNIT="FL">90.000000000000000</ALT>`, Alt{Unit: "FL", Value: 90}},
+		{`<ALT UNIT="FL">100</ALT>`, openaip.Alt{Unit: "FL", Value: 100}},
+		{`<ALT UNIT="FL">75</ALT>`, openaip.Alt{Unit: "FL", Value: 75}},
+		{`<ALT UNIT="FL">90.000000000000000</ALT>`, openaip.Alt{Unit: "FL", Value: 90}},
 	} {
 		d := xml.NewDecoder(bytes.NewBufferString(tc.s))
-		var got Alt
+		var got openaip.Alt
 		if err := d.Decode(&got); err != nil {
 			t.Errorf("decoding %#v returns %v, want nil", tc.s, err)
 			continue
@@ -31,19 +33,19 @@ func TestDecodeAlt(t *testing.T) {
 func TestDecodeAltLimit(t *testing.T) {
 	for _, tc := range []struct {
 		s    string
-		want AltLimit
+		want openaip.AltLimit
 	}{
 		{
 			s:    `<ALTLIMIT_TOP REFERENCE="STD"><ALT UNIT="FL">100</ALT></ALTLIMIT_TOP>`,
-			want: AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 100}},
+			want: openaip.AltLimit{Reference: "STD", Value: openaip.Alt{Unit: "FL", Value: 100}},
 		},
 		{
 			s:    `<ALTLIMIT_BOTTOM REFERENCE="STD"><ALT UNIT="FL">75</ALT></ALTLIMIT_BOTTOM>`,
-			want: AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 75}},
+			want: openaip.AltLimit{Reference: "STD", Value: openaip.Alt{Unit: "FL", Value: 75}},
 		},
 	} {
 		d := xml.NewDecoder(bytes.NewBufferString(tc.s))
-		var got AltLimit
+		var got openaip.AltLimit
 		if err := d.Decode(&got); err != nil {
 			t.Errorf("decoding %#v returns %v, want nil", tc.s, err)
 			continue
@@ -57,7 +59,7 @@ func TestDecodeAltLimit(t *testing.T) {
 func TestDecodePolygon(t *testing.T) {
 	for _, tc := range []struct {
 		s    string
-		want Polygon
+		want openaip.Polygon
 	}{
 		{
 			s: `<POLYGON>` +
@@ -77,7 +79,7 @@ func TestDecodePolygon(t *testing.T) {
 				`9.6391666666667 48.496388888889, ` +
 				`9.6255555555556 48.5625` +
 				`</POLYGON>`,
-			want: Polygon{
+			want: openaip.Polygon{
 				Coords: [][]float64{
 					{9.6255555555556, 48.5625},
 					{9.8477777777778, 48.659444444444},
@@ -99,7 +101,7 @@ func TestDecodePolygon(t *testing.T) {
 		},
 	} {
 		d := xml.NewDecoder(bytes.NewBufferString(tc.s))
-		var got Polygon
+		var got openaip.Polygon
 		if err := d.Decode(&got); err != nil {
 			t.Errorf("decoding %#v returns %v, want nil", tc.s, err)
 			continue
@@ -113,7 +115,7 @@ func TestDecodePolygon(t *testing.T) {
 func TestRead(t *testing.T) {
 	for _, tc := range []struct {
 		s    string
-		want OpenAIP
+		want openaip.OpenAIP
 	}{
 		{
 			s: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>` +
@@ -152,19 +154,19 @@ func TestRead(t *testing.T) {
 				`</ASP>` +
 				`</AIRSPACES>` +
 				`</OPENAIP>`,
-			want: OpenAIP{
+			want: openaip.OpenAIP{
 				Version:    "367810a0f94887bf79cd9432d2a01142b0426795",
 				DataFormat: "1.1",
-				Airspaces: []Airspace{
+				Airspaces: []openaip.Airspace{
 					{
 						Category:       "WAVE",
 						Version:        "367810a0f94887bf79cd9432d2a01142b0426795",
 						ID:             18024,
 						Country:        "DE",
 						Name:           "ALB-OST",
-						AltLimitTop:    AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 100}},
-						AltLimitBottom: AltLimit{Reference: "STD", Value: Alt{Unit: "FL", Value: 75}},
-						Polygons: []Polygon{
+						AltLimitTop:    openaip.AltLimit{Reference: "STD", Value: openaip.Alt{Unit: "FL", Value: 100}},
+						AltLimitBottom: openaip.AltLimit{Reference: "STD", Value: openaip.Alt{Unit: "FL", Value: 75}},
+						Polygons: []openaip.Polygon{
 							{
 								Coords: [][]float64{
 									{9.6255555555556, 48.5625},
@@ -191,7 +193,7 @@ func TestRead(t *testing.T) {
 		},
 	} {
 		d := xml.NewDecoder(bytes.NewBufferString(tc.s))
-		var got OpenAIP
+		var got openaip.OpenAIP
 		if err := d.Decode(&got); err != nil {
 			t.Errorf("decoding %#v returns %v, want nil", tc.s, err)
 			continue
